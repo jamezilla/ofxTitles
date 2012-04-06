@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FD42DF7-442E-479A-BA76-D0022F99702A}</ProjectGuid>
-    <RootNamespace>SubtitleExample</RootNamespace>
+    <RootNamespace>TitlesExample</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -119,14 +119,13 @@ if not exist "$(ProjectDir)bin\data" mkdir  "$(ProjectDir)bin\data"</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ofxSubtitle.cpp" />
+    <ClCompile Include="..\..\src\ofxTitles.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\SubtitleApp.cpp" />
+    <ClCompile Include="..\src\TitlesApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ofxSubtitle.h" />
-    <ClInclude Include="..\..\src\ofxSubtitle_p.h" />
-    <ClInclude Include="..\src\SubtitleApp.h" />
+    <ClInclude Include="..\..\src\ofxTitles.h" />
+    <ClInclude Include="..\src\TitlesApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,14 +1,14 @@
-#ifndef _TRACKER_APP
-#define _TRACKER_APP
+#ifndef _TITLES_APP
+#define _TITLES_APP
 
 #include "ofMain.h"
-#include "ofxSubtitle.h"
+#include "ofxTitles.h"
 
-class SubtitleApp : public ofBaseApp{
+class TitlesApp : public ofBaseApp{
 
 public:
-    SubtitleApp(){};
-    SubtitleApp(int ac, char* av[]);
+    TitlesApp(){};
+    TitlesApp(int ac, char* av[]);
 
     void setup();
     void update();
@@ -22,7 +22,8 @@ public:
     void mouseReleased(int x, int y, int button);
     void windowResized(int w, int h);
 
-    ofxSubtitle     mSubtitle;
+    ofxTitles     mTitles;
+	ofVideoPlayer mVid;
 
 };
 

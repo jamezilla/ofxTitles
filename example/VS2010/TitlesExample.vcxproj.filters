@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\TitlesApp.cpp" />
+    <ClCompile Include="..\..\src\ofxTitles.cpp">
+      <Filter>addons\ofxTitles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\TitlesApp.h" />
+    <ClInclude Include="..\..\src\ofxTitles.h">
+      <Filter>addons\ofxTitles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="addons">
+      <UniqueIdentifier>{9fdc6309-ca48-48fa-a178-00c046b67319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxTitles">
+      <UniqueIdentifier>{e2716feb-2820-448e-8c6e-1706f61748f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

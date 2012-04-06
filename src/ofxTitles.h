@@ -1,5 +1,5 @@
 /*
- *  ofxSubtitle.h
+ *  ofxTitles.h
  *
  *  Created by James Hughes on 2012/04/04.
  *  Copyright 2012 James Hughes. All rights reserved.
@@ -11,20 +11,20 @@
 #include <set>
 #include "ofMain.h"
 
-class ofxSubtitle
+class ofxTitles
 {
 public:
-	ofxSubtitle();
+	ofxTitles();
 
 	void          add(std::string _text, int _number, int _start_time, int _end_time);
 	void          clear(void);
 	void          draw(void);
 	void          draw(float x, float y);
-	void          draw(float x, float y, float w, float h);
+	void          draw(float x, float y, float w, float h, float percent=0.9);
 	bool          empty(void);
 	void          firstFrame(void);
 	bool          isPlaying(void);
-	void		  loadFont(const std::string& path){font.loadFont(path,13,true,true,true);};
+	void		  loadFont(std::string path, int fontsize=14, bool _bAntiAliased=true, bool _bFullCharacterSet=false, bool makeContours=false, float simplifyAmt=0.3, int dpi=0);
 	//void          nextFrame(void);
 	void          play(void);
 	void          setLoopState(ofLoopType state);
@@ -34,14 +34,14 @@ public:
 
 private:
 	enum PlaybackState {
-		SUBTITLE_STOPPED,
-		SUBTITLE_PAUSED,
-		SUBTITLE_WAITING,
-		SUBTITLE_DISPLAYING
+		TITLE_STOPPED,
+		TITLE_PAUSED,
+		TITLE_WAITING,
+		TITLE_DISPLAYING
 	};
 
-	struct Subtitle {
-		bool operator<(const Subtitle& other) const { return start_time < other.start_time; }
+	struct Title {
+		//bool operator<(const Title& other) const { return start_time < other.start_time; }
 		std::string text;
 		int         number;
 		int         start_time;
@@ -49,8 +49,14 @@ private:
 		int         duration;
 	};
 
-	typedef ofPtr<Subtitle> SubtitlePtr;
-	typedef std::set<SubtitlePtr> Subtitles;
+	typedef ofPtr<Title> TitlePtr;
+
+	struct classcomp {
+		bool operator() (const TitlePtr& lhs, const TitlePtr& rhs) const
+		{return lhs->start_time < rhs->start_time;}
+	};
+
+	typedef std::set<TitlePtr, classcomp> Titles;
 	
 	void                _checkPlayState(void);
 	bool                _advancePlayHead(void);
@@ -60,7 +66,7 @@ private:
 	int                 base_timestamp;
 	int                 frame_timestamp;
 	ofLoopType          loop_type;
-	Subtitles           subtitles;
-	Subtitles::iterator play_head;
+	Titles              titles;
+	Titles::iterator    play_head;
 	ofTrueTypeFont	    font;
 };
