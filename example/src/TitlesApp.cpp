@@ -10,16 +10,21 @@ void TitlesApp::setup(){
    mVid.loadMovie("fingers.mov");
    mVid.play();
 
+   mTitles.bindVideo(&mVid);
+   mTitles.add("Subtitle 1", 1, 1000, 3000);
+   
+
    // subtitles are automatically sorted by their start
    // time so they can be added in any order
-	mTitles.add("Subtitle 6", 6, 9500, 11500);
-	mTitles.add("Subtitle 5", 5, 9000, 8500);  // this won't display
-	mTitles.add("Subtitle 1", 1, 1000, 3000);
-	mTitles.add("Subtitle 3", 3, 6000, 8000);
-	mTitles.add("Subtitle 2", 2, 3500, 5500);
-	mTitles.add("Subtitle 4", 4, 8500, 8500);  // this won't display
-	mTitles.loadFont("Inconsolata.ttf", 32);
-	mTitles.play();
+   //mTitles.add("Subtitle 6", 6, 9500, 11500);
+   //mTitles.add("Subtitle 5", 5, 9000, 8500);  // this won't display
+   //mTitles.add("Subtitle 3", 3, 6000, 8000);
+   //mTitles.add("Subtitle 2", 7, 3500, 5500);
+   //mTitles.add("Subtitle 4", 4, 8500, 8500);  // this won't display
+
+   mTitles.loadFont("Inconsolata.ttf", 32);
+   mTitles.setLoopState(OF_LOOP_NORMAL);
+   mTitles.play();
 }
 
 //--------------------------------------------------------------
@@ -41,7 +46,9 @@ void TitlesApp::draw(){
 	// shaky title, absolutely positioned
 	int x = (rand() % 5) + 20;
 	int y = (rand() % 5)  + (mVid.height * 2) + 80;
+	mTitles.setDisplayNumber(true);
 	mTitles.draw(x, y);
+	mTitles.setDisplayNumber(false);
 }
 
 //--------------------------------------------------------------

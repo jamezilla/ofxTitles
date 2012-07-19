@@ -20,7 +20,8 @@
 using Poco::FastMutex;
 
 ofxTitles::ofxTitles() 
-	: loop_type(OF_LOOP_NONE),
+	: display_number(false),
+	  loop_type(OF_LOOP_NONE),
 	  base_timestamp(ofGetElapsedTimeMillis()),
 	  frame_timestamp(ofGetElapsedTimeMillis()),
 	  playback_state(TITLE_STOPPED)
@@ -44,6 +45,14 @@ void ofxTitles::add(std::string _text, int _number, int _start_time, int _end_ti
 
 	// stick it in the buffer
 	titles.insert(sub);
+}
+
+void ofxTitles::bindVideo(ofVideoPlayer* _vid_player)
+{
+	vid_player = _vid_player;
+	
+	// add a blank subtitle, with no duration to the end of the movie to make looping work
+	add("", INT_MAX, vid_player->getDuration()*1000, vid_player->getDuration()*1000);
 }
 
 void ofxTitles::clear(void)
@@ -79,14 +88,26 @@ void ofxTitles::draw(float x, float y, float w, float h, float percent)
 
 	ofPushStyle();
 	ofSetHexColor(0x00ff00);
+
+	std::string text;
+	if (display_number)
+		text = ofToString((*play_head)->number) + ":" + (*play_head)->text;
+	else
+		text = (*play_head)->text;
+
 	if (font.isLoaded()) {
-		x = x + ((w - font.stringWidth((*play_head)->text)) * 0.5);
-		y = y + (h * percent) + (font.stringHeight((*play_head)->text) * 0.5);
-		font.drawString((*play_head)->text, x, y);
+		x = x + ((w - font.stringWidth(text)) * 0.5);
+		y = y + (h * percent) + (font.stringHeight(text) * 0.5);
+		font.drawString(text, x, y);
 	} else {
-		ofDrawBitmapString((*play_head)->text, x, y);
+		ofDrawBitmapString(text, x, y);
 	}
 	ofPopStyle();
+}
+
+void ofxTitles::_draw(std::string text, float x, float y)
+{
+	// YOU WERE THINKING ABOUT DRYING THIS UP
 }
 
 bool ofxTitles::empty(void)
@@ -198,6 +219,11 @@ void ofxTitles::play(void)
 	_checkPlayState();
 }
 
+void ofxTitles::setDisplayNumber(bool show)
+{
+	display_number = show;
+}
+
 void ofxTitles::setLoopState(ofLoopType state)
 {
 	loop_type = state;
@@ -208,6 +234,10 @@ int ofxTitles::size(void)
 	return titles.size();
 }
 
+void ofxTitles::stop(void)
+{
+	playback_state = TITLE_PAUSED;
+}
 
 void ofxTitles::update(ofEventArgs& args)
 {
@@ -216,6 +246,13 @@ void ofxTitles::update(ofEventArgs& args)
 
 	// update the frame timestamp
 	frame_timestamp = ofGetElapsedTimeMillis();
+
+	// sync up the loop type between the video and subtitles
+	// THIS DOESN'T WORK because getLoopState is not implemented
+	//if (vid_player && loop_type != vid_player->) {
+	//	loop_type = static_cast<ofLoopType>(vid_player->getLoopState());
+	//}
+
 
 	switch(playback_state) {
 	case TITLE_STOPPED:
@@ -237,9 +274,4 @@ void ofxTitles::update(ofEventArgs& args)
 		ofLog(OF_LOG_ERROR, "Title::update() called with some unknown playback state");
 		break;
 	}
-}
-
-void ofxTitles::stop(void)
-{
-	playback_state = TITLE_PAUSED;
 }

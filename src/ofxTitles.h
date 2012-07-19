@@ -17,6 +17,7 @@ public:
 	ofxTitles();
 
 	void          add(std::string _text, int _number, int _start_time, int _end_time);
+	void          bindVideo(ofVideoPlayer* vid_player);
 	void          clear(void);
 	void          draw(void);
 	void          draw(float x, float y);
@@ -27,8 +28,9 @@ public:
 	void		  loadFont(std::string path, int fontsize=14, bool _bAntiAliased=true, bool _bFullCharacterSet=false, bool makeContours=false, float simplifyAmt=0.3, int dpi=0);
 	//void          nextFrame(void);
 	void          play(void);
+	void          setDisplayNumber(bool show);
 	void          setLoopState(ofLoopType state);
-	int size(void);
+	int           size(void);
 	void          stop(void);
 	void          update(ofEventArgs& args);
 
@@ -58,15 +60,18 @@ private:
 
 	typedef std::set<TitlePtr, classcomp> Titles;
 	
-	void                _checkPlayState(void);
-	bool                _advancePlayHead(void);
-	void                _updateDisplayState(void);
-
-	PlaybackState       playback_state;
-	int                 base_timestamp;
-	int                 frame_timestamp;
-	ofLoopType          loop_type;
-	Titles              titles;
-	Titles::iterator    play_head;
-	ofTrueTypeFont	    font;
+	void                 _checkPlayState(void);
+	bool                 _advancePlayHead(void);
+	void                 _draw(std::string text, float x, float y);
+	void                 _updateDisplayState(void);
+						 
+	PlaybackState        playback_state;
+	int                  base_timestamp;
+	int                  frame_timestamp;
+	ofLoopType           loop_type;
+	Titles               titles;
+	Titles::iterator     play_head;
+	ofTrueTypeFont	     font;
+	bool                 display_number;
+	ofVideoPlayer*       vid_player;
 };
